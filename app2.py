@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
+import plotly.express as px
 
 # Load the Excel file
 EXCEL_FILE = "growth_mindset_data.xlsx"
@@ -42,16 +42,27 @@ def add_goal():
             st.error("Please enter a goal.")
 
 def visualize_progress():
-    """Visualize progress using a bar chart."""
+    """Visualize progress using an interactive Plotly bar chart."""
     goals_df = pd.read_excel(EXCEL_FILE, sheet_name="Goals")
     
     st.write("### Your Progress Towards Goals")
-    fig, ax = plt.subplots()
-    ax.bar(goals_df["Goal"], goals_df["Progress (%)"], color="skyblue")
-    ax.set_xlabel("Goals")
-    ax.set_ylabel("Progress (%)")
-    ax.set_ylim(0, 100)
-    st.pyplot(fig)
+    fig = px.bar(
+        goals_df,
+        x="Goal",
+        y="Progress (%)",
+        text="Progress (%)",
+        labels={"Progress (%)": "Progress"},
+        color="Progress (%)",
+        color_continuous_scale="Blues",
+    )
+    fig.update_traces(textposition="outside")
+    fig.update_layout(
+        xaxis_title="Goals",
+        yaxis_title="Progress (%)",
+        yaxis_range=[0, 100],
+        showlegend=False,
+    )
+    st.plotly_chart(fig, use_container_width=True)
 
 def main():
     """Main function to run the app."""
