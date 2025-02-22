@@ -66,7 +66,7 @@ def visualize_progress():
 
 def main():
     """Main function to run the app."""
-    st.title("Growth Mindset App 🌱")
+    st.title("Growth Mindset Application 🌱")
     
     # Sidebar for navigation
     st.sidebar.title("Navigation")
